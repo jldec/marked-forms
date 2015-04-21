@@ -12,7 +12,9 @@ npm install marked-forms
 
 ```javascript
 var marked = require('marked');
-var renderer = require('marked-forms')(new marked.Renderer());
+var renderer = new marked.Renderer();
+
+require('marked-forms')(renderer);    // monkey-patches the renderer
 
 var html = marked(markdown, {renderer:renderer});
 ```
@@ -32,7 +34,7 @@ html
 <input name="Provide a Name" id="provide-a-name">
 ```
 
-- `??` at the start or end of the link text results in an `<input>` with a `<label>` before or after it. 
+- `??` at the start or end of the link text results in an `<input>` with a `<label>` before or after it.
 
 - `id` and `for` and `name` attributes are derived from the text.
 

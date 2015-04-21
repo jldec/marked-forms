@@ -1,6 +1,6 @@
 {
   "name": "marked-forms",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "generate HTML labels and input controls from markdown",
   "main": "marked-forms.js",
   "license": "MIT",
@@ -17,6 +17,7 @@
     "type": "git",
     "url": "git://github.com/jldec/marked-forms.git"
   },
+  "keywords": ["markdown", "forms", "inputs", "labels", "html"],
   "author": "jurgen leschner",
   "license": "MIT"
 }
