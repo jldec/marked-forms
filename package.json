@@ -1,14 +1,13 @@
 {
   "name": "marked-forms",
-  "version": "0.5.2",
+  "version": "1.0.0",
   "description": "generate HTML labels and input controls from markdown",
   "main": "marked-forms.js",
-  "license": "MIT",
   "dependencies": {
   },
   "devDependencies": {
-    "mocha": "*",
-    "marked": "*"
+    "mocha": "^2.2.4",
+    "marked": "^0.3.3"
   },
   "scripts": {
     "test": "mocha --ui qunit"
