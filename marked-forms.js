@@ -41,7 +41,7 @@ function link(href, title, text) {
   m = text.match(reLabelAfter);
   if (m) return renderInput(m[5], m[1], m[2], m[3], m[4], href, title, false);
 
-  return fallback.link(href, title, text);
+  return fallback.link.call(this, href, title, text);
 }
 
 // capture listitems for select, checklist, radiolist
@@ -56,7 +56,7 @@ function listitem(text) {
 
     return renderOption(txt, val);
   }
-  return fallback.listitem(text);
+  return fallback.listitem.call(this, text);
 }
 
 // strip p tags while collecting listitems
@@ -68,7 +68,7 @@ function paragraph(text) {
 // rendering the list terminates listitem collector
 function list(body, ordered) {
   if (inList()) return body + endList();
-  return fallback.list(body, ordered);
+  return fallback.list.call(this, body, ordered);
 }
 
 
