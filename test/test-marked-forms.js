@@ -5,7 +5,7 @@
  *
 **/
 
-suite('test-marked-forms');
+var test = require('tape')
 
 var inspect = require('util').inspect;
 var assert = require('assert');
@@ -381,16 +381,18 @@ function wrap(s) { return '<p>' + s + '</p>\n'; }
 function wrap2(s) { return '<ul>\n<li>' + s + '</li>\n</ul>\n'; }
 function unwrap(s) { return (/^<p>/.test(s) ? s.slice(3,-5) : (/^<ul>/.test(s) ? s.slice(9,-12) : s)); }
 
-test('sanity check unwrap()', function() {
-  assert.equal(unwrap('hello'),'hello');
-  assert.equal(unwrap(wrap('hello')),'hello');
-  assert.equal(unwrap(wrap2('hello')),'hello');
+test('sanity check unwrap()', function(t) {
+  t.equal(unwrap('hello'),'hello');
+  t.equal(unwrap(wrap('hello')),'hello');
+  t.equal(unwrap(wrap2('hello')),'hello');
+  t.end();
 });
 
 tests.forEach(function(tst){
-  test(inspect(tst.in).slice(1,-1) + (tst.comment || ''), function(){
+  test(inspect(tst.in).slice(1,-1) + (tst.comment || ''), function(t){
     var actual = markdown(tst.in);
     // console.log('@@@\n%s\n@@@', actual);
-    assert.equal(unwrap(actual), tst.out);
+    t.equal(unwrap(actual), tst.out);
+    t.end();
   });
 });
