@@ -1,22 +1,26 @@
 /**
  * test-markedext
  * tests for marked.js extensions
- * copyright 2015, Jurgen Leschner - github.com/jldec - MIT license
+ * copyright 2015-2019, Jurgen Leschner - github.com/jldec - MIT license
  *
 **/
+/*eslint indent: "off"*/
 
-var test = require('tape')
+var test = require('tape');
 
 var inspect = require('util').inspect;
-var assert = require('assert');
 var marked = require('marked');
-var renderer = require('../marked-forms')(new marked.Renderer());
-var markdown = function(txt) { return marked(txt, {renderer:renderer}); }
+var renderer = require('../marked-forms')(new marked.Renderer(), marked);
+var markdown = function(txt) { return marked(txt, {renderer:renderer}); };
 
 var tests = [
 
 {in:'[regular link](url)',
 out:'<a href="url">regular link</a>'}
+,
+{comment: ' (NOTE: violates commonmark,but is required for forms with spaces in field names',
+in:'[regular link](url space)',
+out:'<a href="url%20space">regular link</a>'}
 ,
 {in:'- regular list\n- with 2 list items',
 out:'regular list</li>\n<li>with 2 list items'} // see unwrap2 below
@@ -32,7 +36,7 @@ out:'\n<input name="name" id="name" class="cssname">'}
 ,
 {comment: ' (NOTE: BOGUS OUTPUT - quoted title is treated as the href in this case.)',
  in:'[??]("cssname")',
-out:'\n<input name="&quot;cssname&quot;" id="-quot-cssname-quot-">'}
+out:'\n<input name="&quot;cssname&quot;" id="-cssname-">'}
 ,
 {in:'[??*](name)',
 out:'\n<input required name="name" id="name" class="required">'}

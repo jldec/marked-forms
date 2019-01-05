@@ -14,7 +14,10 @@ npm install marked-forms
 var marked = require('marked');
 var renderer = new marked.Renderer();
 
-require('marked-forms')(renderer);    // monkey-patches the renderer
+// note as of v2.0.0, the 2nd parameter is required to monkey-patch marked to support
+// spaces in the url part of links, which is used for the form-field name attribute.
+
+require('marked-forms')(renderer, marked);    // monkey-patches the renderer
 
 var html = marked(markdown, {renderer:renderer});
 ```

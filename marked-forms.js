@@ -4,18 +4,25 @@
  * forms-renderer for marked.js
  * generates labels and input controls from [text ?input?](name)
  *
- * usage: formsRenderer = markedForms(renderer)
+ * usage: formsRenderer = markedForms(renderer, marked)
+ * NOTE: 2nd paramater is optional - required to monkey-patch to allow links with spaces 
  *
- * copyright 2015, Jurgen Leschner - github.com/jldec - MIT license
+ * copyright 2015-2019, Jurgen Leschner - github.com/jldec - MIT license
  *
 **/
 
 var fallback;
 
-module.exports = function markedForms(renderer) {
+module.exports = function markedForms(renderer, marked) {
 
   // avoid re-initializing (creates recursive method calls)
   if (renderer === fallback) return;
+
+  // monkey-patch marked to allow urls with spaces in links (gfm only)
+  if (marked && marked.InlineLexer && marked.InlineLexer.rules && marked.InlineLexer.rules.gfm && marked.InlineLexer.rules.gfm.link) {
+    marked.InlineLexer.rules.gfm.link =
+      new RegExp(marked.InlineLexer.rules.gfm.link.source.replace('|[^\\s\\x00-\\x1f', '|[^\\x00-\\x1f'));
+  }
 
   // call fallback methods when not rendering forms
   fallback = clone(renderer);
@@ -27,13 +34,13 @@ module.exports = function markedForms(renderer) {
   renderer.paragraph = paragraph;
 
   return renderer;
-}
+};
 
 // markdown link syntax extension for forms
 function link(href, title, text) {
 
-  var reLabelFirst = /^(.*?)\s*\?([^\?\s]*)\?(\*?)(X?)(H?)$/;
-  var reLabelAfter = /^\?([^\?\s]*)\?(\*?)(X?)(H?)\s*(.*)$/;
+  var reLabelFirst = /^(.*?)\s*\?([^?\s]*)\?(\*?)(X?)(H?)$/;
+  var reLabelAfter = /^\?([^?\s]*)\?(\*?)(X?)(H?)\s*(.*)$/;
 
   var m = text.match(reLabelFirst);
   if (m) return renderInput(m[1], m[2], m[3], m[4], m[5], href, title, true);
@@ -46,10 +53,10 @@ function link(href, title, text) {
 
 // capture listitems for select, checklist, radiolist
 function listitem(text) {
-    if (inList()) {
+  if (inList()) {
 
     // capture value in trailing "text" - unescape makes regexp work
-    var m = unescapeQuotes(text).match(/^(.*)\s+\"([^\"]*)\"\s*$/);
+    var m = unescapeQuotes(text).match(/^(.*)\s+"([^"]*)"\s*$/);
 
     var txt = m ? escapeQuotes(m[1]) : text;
     var val = m ? escapeQuotes(m[2]) : text;
@@ -193,11 +200,11 @@ function endList() {
 // utility
 
 function attr(nme, val, all) {
-  return val || all ? ' ' + nme + '="' + val + '"' : '';
+  return val || all ? ' ' + nme + '="' + escapeQuotes(val) + '"' : '';
 }
 
 function escapeQuotes(s) {
-  return s.replace(/\"/g, '&quot;');
+  return s.replace(/"/g, '&quot;');
 }
 
 function unescapeQuotes(s) {
@@ -206,6 +213,7 @@ function unescapeQuotes(s) {
 
 function clone(o) {
   var o2 = {};
+  var key;
   for (key in o) { o2[key] = o[key]; }
   return o2;
 }
