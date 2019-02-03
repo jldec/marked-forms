@@ -1,6 +1,6 @@
 # marked-forms
 
-Custom [marked renderer](https://github.com/chjj/marked#renderer) to generate html form inputs.
+Custom [marked renderer](https://marked.js.org/#/USING_PRO.md#renderer) to generate html form inputs.
 
 ## installation
 
