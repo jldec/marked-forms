@@ -1,4 +1,5 @@
 # marked-forms
+[![Build Status](https://travis-ci.org/jldec/marked-forms.svg?branch=master)](https://travis-ci.org/jldec/marked-forms)
 
 Custom [marked renderer](https://marked.js.org/#/USING_PRO.md#renderer) to generate html form inputs.
 
