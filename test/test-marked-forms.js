@@ -34,9 +34,9 @@ out:'\n<input name="name" id="name">'}
 {in:'[??](name "cssname")',
 out:'\n<input name="name" id="name" class="cssname">'}
 ,
-{comment: ' (NOTE: BOGUS OUTPUT - quoted title is treated as the href in this case.)',
+{comment: ' (NOTE: not recognized as a link)',
  in:'[??]("cssname")',
-out:'\n<input name="&quot;cssname&quot;" id="-cssname-">'}
+out:'[??](&quot;cssname&quot;)'}
 ,
 {in:'[??*](name)',
 out:'\n<input required name="name" id="name" class="required">'}

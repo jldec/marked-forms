@@ -5,7 +5,7 @@
  * generates labels and input controls from [text ?input?](name)
  *
  * usage: formsRenderer = markedForms(renderer, marked)
- * NOTE: 2nd paramater is optional - required to monkey-patch to allow links with spaces 
+ * NOTE: 2nd paramater is optional - required to monkey-patch to allow links with spaces
  *
  * copyright 2015-2019, Jurgen Leschner - github.com/jldec - MIT license
  *
@@ -21,7 +21,7 @@ module.exports = function markedForms(renderer, marked) {
   // monkey-patch marked to allow urls with spaces in links (gfm only)
   if (marked && marked.InlineLexer && marked.InlineLexer.rules && marked.InlineLexer.rules.gfm && marked.InlineLexer.rules.gfm.link) {
     marked.InlineLexer.rules.gfm.link =
-      new RegExp(marked.InlineLexer.rules.gfm.link.source.replace('|[^\\s\\x00-\\x1f', '|[^\\x00-\\x1f'));
+      new RegExp(marked.InlineLexer.rules.gfm.link.source.replace('|[^\\s\\x00-\\x1f', '|[^"\\x00-\\x1f'));
   }
 
   // call fallback methods when not rendering forms
