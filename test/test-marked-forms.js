@@ -69,9 +69,9 @@ out:'\n<label for="label-text">Label Text</label>' +
 out:'\n<input style="display:none;" disabled name="Label Text" id="label-text">' +
     '\n<label style="display:none;" for="label-text">Label Text</label>'}
 ,
-{in:'[Label Text ??H]()',
-out:'\n<label style="display:none;" for="label-text">Label Text</label>' +
-    '\n<input style="display:none;" disabled name="Label Text" id="label-text">'}
+{in:'[Label Text ??H](foo)',
+out:'\n<label style="display:none;" for="foo">Label Text</label>' +
+    '\n<input style="display:none;" disabled name="foo" id="foo">'}
 ,
 {in:'[??* Label Text](Name)',
 out:'\n<input required name="Name" id="name" class="required">' +
@@ -303,12 +303,12 @@ out:'\n<label>Radiolist with a label before</label>'+
     '\n'}
 ,
 {in:'- [?radiolist? ](name)' +
-    '\n  - radio1 "value1"' +
-    '\n  - radio2 "value2"' +
-    '\n  - radio3 "value3"',
-out:'\n<label class="radio"><input type="radio" name="name" value="value1">radio1</label>' +
-    '\n<label class="radio"><input type="radio" name="name" value="value2">radio2</label>' +
-    '\n<label class="radio"><input type="radio" name="name" value="value3">radio3</label>' +
+    '\n  - radio 1 "value1"' +
+    '\n  - radio 2 "value2"' +
+    '\n  - radio 3 "value3"',
+out:'\n<label class="radio"><input type="radio" name="name" value="value1">radio 1</label>' +
+    '\n<label class="radio"><input type="radio" name="name" value="value2">radio 2</label>' +
+    '\n<label class="radio"><input type="radio" name="name" value="value3">radio 3</label>' +
     '\n'}
 ,
 {in:'[?label? Label text]()',
@@ -376,8 +376,27 @@ out:'\n<label for="carrier">Cellphone Service Provider</label>' +
     '\n<option value="TMO">T-Mobile</option>' +
     '\n<option value="Verizon">Verizon</option>' +
     '\n<option value="ATT">AT&amp;T</option>' +
-    '\n</select>'}
-
+    '\n</select>'},
+{in:'First Header | Second Header' +
+    '\n------------ | -------------' +
+    '\nContent from cell 1 | Content from cell 2' +
+    '\nContent in the first column | Content in the second column',
+out:'<table>' +
+    '\n<thead>' +
+    '\n<tr>' +
+    '\n<th>First Header</th>' +
+    '\n<th>Second Header</th>' +
+    '\n</tr>' +
+    '\n</thead>' +
+    '\n<tbody><tr>' +
+    '\n<td>Content from cell 1</td>' +
+    '\n<td>Content from cell 2</td>' +
+    '\n</tr>' +
+    '\n<tr>' +
+    '\n<td>Content in the first column</td>' +
+    '\n<td>Content in the second column</td>' +
+    '\n</tr>' +
+    '\n</tbody></table>\n'}
 ];
 
 // for convenience of writing test cases, unwrap strips paragraph or list markup from around the output

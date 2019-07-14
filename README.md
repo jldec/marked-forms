@@ -24,7 +24,7 @@ require('marked-forms')(renderer, marked);    // monkey-patches the renderer
 var html = marked(markdown, {renderer:renderer});
 ```
 
-## **text** input
+## text input
 
 markdown
 
@@ -63,15 +63,15 @@ html
 ```
 
 
-## **select**
+## select
 
 markdown
 
 ```md
 [Choose one ?select?](nme)
-- option1
-- option2
-- option3
+- option 1 "val1"
+- option 2 "val2"
+- option 3
 ```
 
 html
@@ -79,13 +79,13 @@ html
 ```html
 <label for="nme">Choose one</label>
 <select name="nme" id="nme">
-<option value="option1">option1</option>
-<option value="option2">option2</option>
-<option value="option3">option3</option>
+<option value="val1">option 1</option>
+<option value="val2">option 2</option>
+<option value="option 3">option 3</option>
 </select>
 ```
 
-## **check list**
+## check list
 
 markdown
 
@@ -104,6 +104,75 @@ html
 <label class="checkbox">check3<input type="checkbox" name="name" value="check3"></label>
 ```
 
-#### there's more
-Additional doc coming soon. For now check out [code](marked-forms.js) and [tests](test/test-marked-forms.js).
+
+## radio list
+
+markdown
+
+```md
+[?radiolist? ](name)
+- radio 1 "value1"
+- radio 2 "value2"
+- radio 3 "value3"
+```
+
+html
+
+```html
+<label class="radio"><input type="radio" name="name" value="value1">radio 1</label>
+<label class="radio"><input type="radio" name="name" value="value2">radio 2</label>
+<label class="radio"><input type="radio" name="name" value="value3">radio 3</label>
+```
+
+
+## * for required fields
+
+markdown
+
+```md
+[Label Text ??*](Name)
+```
+
+
+html
+
+```html
+<label for="name" class="required">Label Text</label>
+<input required name="Name" id="name" class="required">
+```
+
+
+## H for hidden fields
+
+markdown
+
+```md
+[Label Text ??H](foo)
+```
+
+
+html
+
+```html
+<label style="display:none;" for="foo">Label Text</label>
+<input style="display:none;" disabled name="foo" id="foo">
+```
+
+
+## CSS styles 
+
+markdown
+
+```md
+[?submit? Submit text](- "class1 class2")
+```
+
+
+html
+
+```html
+<input type="submit" value="Submit text" class="class1 class2">
+```
+
+For more details check out the [tests](test/test-marked-forms.js).
 
