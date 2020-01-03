@@ -1,6 +1,6 @@
 {
   "name": "marked-forms",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "generate HTML labels and input controls from markdown",
   "main": "marked-forms.js",
   "dependencies": {},

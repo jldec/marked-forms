@@ -13,6 +13,12 @@
 
 var fallback;
 
+
+function patch(renderer, property, newValue){
+  fallback[property] = renderer[property];
+  renderer[property] = newValue;
+}
+
 module.exports = function markedForms(renderer, marked) {
 
   // avoid re-initializing (creates recursive method calls)
@@ -28,10 +34,10 @@ module.exports = function markedForms(renderer, marked) {
   fallback = clone(renderer);
 
   // mutate renderer with forms-capable methods
-  renderer.link = link;
-  renderer.listitem = listitem;
-  renderer.list = list;
-  renderer.paragraph = paragraph;
+  patch(renderer, 'link', link);
+  patch(renderer, 'listitem', listitem);
+  patch(renderer, 'list', list);
+  patch(renderer, 'paragraph', paragraph);  
 
   return renderer;
 };
