@@ -1,6 +1,5 @@
 # marked-forms
-[![Azure Build Status](https://dev.azure.com/jldec/marked-forms/_apis/build/status/jldec.marked-forms?branchName=master)](https://dev.azure.com/jldec/marked-forms/_build/latest?definitionId=1&branchName=master)
-[![Build Status](https://travis-ci.org/jldec/marked-forms.svg?branch=master)](https://travis-ci.org/jldec/marked-forms)
+![CI](https://github.com/jldec/marked-forms/workflows/CI/badge.svg)
 
 Custom [marked renderer](https://marked.js.org/#/USING_PRO.md#renderer) to generate html form inputs.
 

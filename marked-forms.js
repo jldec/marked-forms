@@ -7,25 +7,29 @@
  * usage: formsRenderer = markedForms(renderer, marked)
  * NOTE: 2nd paramater is optional - required to monkey-patch to allow links with spaces
  *
- * copyright 2015-2019, Jurgen Leschner - github.com/jldec - MIT license
+ * copyright 2015-2020, Jürgen Leschner - github.com/jldec - MIT license
  *
 **/
 
-var fallback;
+var fallbacks = undefined;
 
 module.exports = function markedForms(renderer, marked) {
 
-  // avoid re-initializing (creates recursive method calls)
-  if (renderer === fallback) return;
+  // avoid extending more than once (creates recursive method calls)
+  if (fallbacks) return;
+
+  // call fallback methods when not rendering forms
+  fallbacks =
+  { link: renderer.link,
+    list: renderer.list,
+    listitem: renderer.listitem,
+    paragraph: renderer.paragraph };
 
   // monkey-patch marked to allow urls with spaces in links (gfm only)
   if (marked && marked.InlineLexer && marked.InlineLexer.rules && marked.InlineLexer.rules.gfm && marked.InlineLexer.rules.gfm.link) {
     marked.InlineLexer.rules.gfm.link =
       new RegExp(marked.InlineLexer.rules.gfm.link.source.replace('|[^\\s\\x00-\\x1f', '|[^"\\x00-\\x1f'));
   }
-
-  // call fallback methods when not rendering forms
-  fallback = clone(renderer);
 
   // mutate renderer with forms-capable methods
   renderer.link = link;
@@ -48,7 +52,7 @@ function link(href, title, text) {
   m = text.match(reLabelAfter);
   if (m) return renderInput(m[5], m[1], m[2], m[3], m[4], href, title, false);
 
-  return fallback.link.call(this, href, title, text);
+  return fallbacks.link.call(this, href, title, text);
 }
 
 // capture listitems for select, checklist, radiolist
@@ -63,19 +67,19 @@ function listitem(text) {
 
     return renderOption(txt, val);
   }
-  return fallback.listitem.call(this, text);
+  return fallbacks.listitem.call(this, text);
 }
 
 // strip p tags while collecting listitems
 function paragraph(text) {
   if (inList()) return text;
-  return fallback.paragraph(text);
+  return fallbacks.paragraph(text);
 }
 
 // rendering the list terminates listitem collector
 function list(body, ordered) {
   if (inList()) return body + endList();
-  return fallback.list.call(this, body, ordered);
+  return fallbacks.list.call(this, body, ordered);
 }
 
 
@@ -209,11 +213,4 @@ function escapeQuotes(s) {
 
 function unescapeQuotes(s) {
   return s.replace(/&quot;/g, '"');
-}
-
-function clone(o) {
-  var o2 = {};
-  var key;
-  for (key in o) { o2[key] = o[key]; }
-  return o2;
 }
