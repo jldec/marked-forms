@@ -13,11 +13,10 @@ npm install marked-forms
 
 ## usage
 
----
 *NOTE: breaking change:*  
 As of v3.0.0, this library uses the [`marked.use()`](https://marked.js.org/#/USING_PRO.md#use) plugin api.  
 The plugin also globally patches the marked link tokenizer to allow spaces in urls.
----
+
 ```javascript
 var marked = require('marked');
 
