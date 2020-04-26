@@ -4,40 +4,35 @@
  * forms-renderer for marked.js
  * generates labels and input controls from [text ?input?](name)
  *
- * usage: formsRenderer = markedForms(renderer, marked)
- * NOTE: 2nd paramater is optional - required to monkey-patch to allow links with spaces
+ * usage: marked.use(markedForms())
  *
  * copyright 2015-2020, Jürgen Leschner - github.com/jldec - MIT license
  *
 **/
 
-module.exports = function markedForms(renderer, marked) {
+/*eslint no-unused-vars: "off"*/
 
-  // fallback methods called when not rendering forms
-  var fallbacks =
-  { link: renderer.link,
-    list: renderer.list,
-    listitem: renderer.listitem,
-    paragraph: renderer.paragraph };
+module.exports = function markedForms() {
 
   // for state machine used by renderOption
   var listState = { pending:'' };
 
-  // monkey-patch marked to allow urls with spaces in links (gfm only)
-  if (marked && marked.InlineLexer && marked.InlineLexer.rules && marked.InlineLexer.rules.gfm && marked.InlineLexer.rules.gfm.link) {
-    marked.InlineLexer.rules.gfm.link =
-      new RegExp(marked.InlineLexer.rules.gfm.link.source.replace('|[^\\s\\x00-\\x1f', '|[^"\\x00-\\x1f'));
-  }
-
-  // mutate renderer with forms-capable methods
-  renderer.link = link;
-  renderer.listitem = listitem;
-  renderer.list = list;
-  renderer.paragraph = paragraph;
-
-  return renderer;
+  return {
+    renderer: { link:link, listitem:listitem, list:list, paragraph:paragraph },
+    tokenizer: { link: tokenizeLink }
+  };
 
   //--//--//--//--//--//--//--//--//--//--//
+
+  // patch the link tokenizer regexp on first usage
+  function tokenizeLink(src) {
+    if (!this._marked_forms_patched_link_rule) {
+      var rules = this.rules.inline;
+      rules.link = new RegExp(rules.link.source.replace('|[^\\s\\x00-\\x1f', '|[^"\\x00-\\x1f'));
+      this._marked_forms_patched_link_rule = true;
+    }
+    return false;
+  }
 
   // markdown link syntax extension for forms
   function link(href, title, text) {
@@ -51,7 +46,7 @@ module.exports = function markedForms(renderer, marked) {
     m = text.match(reLabelAfter);
     if (m) return renderInput(m[5], m[1], m[2], m[3], m[4], href, title, false);
 
-    return fallbacks.link.call(this, href, title, text);
+    return false; // fallbacks.link.call(this, href, title, text);
   }
 
   // capture listitems for select, checklist, radiolist
@@ -66,19 +61,19 @@ module.exports = function markedForms(renderer, marked) {
 
       return renderOption(txt, val);
     }
-    return fallbacks.listitem.call(this, text);
+    return false; // fallbacks.listitem.call(this, text);
   }
 
   // strip p tags while collecting listitems
   function paragraph(text) {
     if (inList()) return text;
-    return fallbacks.paragraph(text);
+    return false; // fallbacks.paragraph(text);
   }
 
   // rendering the list terminates listitem collector
   function list(body, ordered) {
     if (inList()) return body + endList();
-    return fallbacks.list.call(this, body, ordered);
+    return false; // fallbacks.list.call(this, body, ordered);
   }
 
 

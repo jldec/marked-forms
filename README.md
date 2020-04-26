@@ -1,7 +1,9 @@
 # marked-forms
 ![CI](https://github.com/jldec/marked-forms/workflows/CI/badge.svg)
 
-Custom [marked renderer](https://marked.js.org/#/USING_PRO.md#renderer) to generate html form inputs.
+Marked.js plugin for generating HTML form inputs from markdown.
+
+Generates labels and input controls from markdown links like `[text ?input?](name)`.
 
 ## installation
 
@@ -11,16 +13,18 @@ npm install marked-forms
 
 ## usage
 
+---
+*NOTE: breaking change:*  
+As of v3.0.0, this library uses the [`marked.use()`](https://marked.js.org/#/USING_PRO.md#use) plugin api.  
+The plugin also globally patches the marked link tokenizer to allow spaces in urls.
+---
 ```javascript
 var marked = require('marked');
-var renderer = new marked.Renderer();
 
-// note as of v2.0.0, the 2nd parameter is required to monkey-patch marked to support
-// spaces in the url part of links, which is used for the form-field name attribute.
+var markedForms = require('marked-forms');
+marked.use(markedForms());
 
-require('marked-forms')(renderer, marked);    // monkey-patches the renderer
-
-var html = marked(markdown, {renderer:renderer});
+var html = marked(markdown);
 ```
 
 ## text input
