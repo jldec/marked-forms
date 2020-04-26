@@ -12,7 +12,7 @@ var inspect = require('util').inspect;
 var marked = require('marked');
 
 var markedForms = require('../marked-forms');
-marked.use(markedForms(marked));
+marked.use(markedForms());
 
 var tests = [
 
