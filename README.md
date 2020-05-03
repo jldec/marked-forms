@@ -106,6 +106,35 @@ html
 <label class="checkbox">check3<input type="checkbox" name="name" value="check3"></label>
 ```
 
+## "Modern" check list
+
+markdown
+
+```md
+[?checklist?M](name)
+- check1
+- check2
+- check3
+```
+
+html
+
+```html
+<ul id="name" class="checklist">
+  <li class="checkbox">
+    <label class="checkbox" for="name-1">check-a1</label>
+    <input id="name-1" type="checkbox" name="name" value="check-a1">
+  </li>
+  <li class="checkbox">
+    <label class="checkbox" for="name-2">check2</label>
+    <input id="name-2" type="checkbox" name="name" value="check2">
+  </li>
+  <li class="checkbox">
+    <label class="checkbox" for="name-3">check3</label>
+    <input id="name-3" type="checkbox" name="name" value="check3">
+  </li>
+</ul>
+```
 
 ## radio list
 
@@ -126,6 +155,35 @@ html
 <label class="radio"><input type="radio" name="name" value="value3">radio 3</label>
 ```
 
+## "Modern" radio list
+
+markdown
+
+```md
+[?radiolist?M ](name)
+- radio 1 "value1"
+- radio 2 "value2"
+- radio 3 "value3"
+```
+
+html
+
+```html
+<ul id="name" class="radiolist">
+  <li class="radio">
+    <input id="name-1" type="radio" name="name" value="radio1">
+    <label class="radio" for="name-1">radio1</label>
+  </li>
+  <li class="radio">
+    <input id="name-2" type="radio" name="name" value="radio2">
+    <label class="radio" for="name-2">radio2</label>
+  </li>
+  <li class="radio">
+    <input id="name-3" type="radio" name="name" value="radio3">
+    <label class="radio" for="name-3">radio3</label>
+  </li>
+</ul>
+```
 
 ## * for required fields
 

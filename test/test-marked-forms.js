@@ -312,6 +312,99 @@ out:'\n<label class="radio"><input type="radio" name="name" value="value1">radio
     '\n<label class="radio"><input type="radio" name="name" value="value3">radio 3</label>' +
     '\n'}
 ,
+{in:'[?checklist?M](name)' +
+    '\n- check-a1' +
+    '\n- check2' +
+    '\n- check3',
+out:'\n<ul id="name" class="checklist">' +
+    '<li class="checkbox">' +
+    '\n<label class="checkbox" for="name-1">check-a1</label><input id="name-1" type="checkbox" name="name" value="check-a1"></li>' +
+    '<li class="checkbox">' +
+    '\n<label class="checkbox" for="name-2">check2</label><input id="name-2" type="checkbox" name="name" value="check2"></li>' +
+    '<li class="checkbox">' +
+    '\n<label class="checkbox" for="name-3">check3</label><input id="name-3" type="checkbox" name="name" value="check3"></li>' +
+    '\n</ul>'}
+,
+{in:'[  ?checklist?M](name)' +
+    '\n- check1' +
+    '\n- check2' +
+    '\n- check3',
+out:'\n<ul id="name" class="checklist">' +
+    '<li class="checkbox">' +
+    '\n<label class="checkbox" for="name-1">check1</label><input id="name-1" type="checkbox" name="name" value="check1"></li>' +
+    '<li class="checkbox">' +
+    '\n<label class="checkbox" for="name-2">check2</label><input id="name-2" type="checkbox" name="name" value="check2"></li>' +
+    '<li class="checkbox">' +
+    '\n<label class="checkbox" for="name-3">check3</label><input id="name-3" type="checkbox" name="name" value="check3"></li>' +
+    '\n</ul>'}
+,
+{in:'[?checklist?M  ](name)' +
+    '\n- check1' +
+    '\n- check2' +
+    '\n- check3',
+out:'\n<ul id="name" class="checklist">' +
+    '<li class="checkbox"><input id="name-1" type="checkbox" name="name" value="check1">' +
+    '\n<label class="checkbox" for="name-1">check1</label></li>' +
+    '<li class="checkbox"><input id="name-2" type="checkbox" name="name" value="check2">' +
+    '\n<label class="checkbox" for="name-2">check2</label></li>' +
+    '<li class="checkbox"><input id="name-3" type="checkbox" name="name" value="check3">' +
+    '\n<label class="checkbox" for="name-3">check3</label></li>' +
+    '\n</ul>'}
+,
+{in:'[?radiolist?M  ](name)' +
+    '\n- radio1' +
+    '\n- radio2' +
+    '\n- radio3',
+out:'\n<ul id="name" class="radiolist">' +
+    '<li class="radio"><input id="name-1" type="radio" name="name" value="radio1">' +
+    '\n<label class="radio" for="name-1">radio1</label></li>' +
+    '<li class="radio"><input id="name-2" type="radio" name="name" value="radio2">' +
+    '\n<label class="radio" for="name-2">radio2</label></li>' +
+    '<li class="radio"><input id="name-3" type="radio" name="name" value="radio3">' +
+    '\n<label class="radio" for="name-3">radio3</label></li>' +
+    '\n</ul>'}
+,
+{in:'[?radiolist?M Radiolist with a label after](name)' +
+    '\n- radio1' +
+    '\n- radio2' +
+    '\n- radio3',
+out:'\n<ul id="name" class="radiolist">' +
+    '<li class="radio"><input id="name-1" type="radio" name="name" value="radio1">' +
+    '\n<label class="radio" for="name-1">radio1</label></li>' +
+    '<li class="radio"><input id="name-2" type="radio" name="name" value="radio2">' +
+    '\n<label class="radio" for="name-2">radio2</label></li>' +
+    '<li class="radio"><input id="name-3" type="radio" name="name" value="radio3">' +
+    '\n<label class="radio" for="name-3">radio3</label></li>' +
+    '\n</ul>' +
+    '\n<label for="name">Radiolist with a label after</label>'}
+,
+{in:'[Radiolist with a label before ?radiolist?M](name)' +
+    '\n- radio1' +
+    '\n- radio2' +
+    '\n- radio3',
+out:'\n<label for="name">Radiolist with a label before</label>' +
+    '\n<ul id="name" class="radiolist">' +
+    '<li class="radio">' +
+    '\n<label class="radio" for="name-1">radio1</label><input id="name-1" type="radio" name="name" value="radio1"></li>' +
+    '<li class="radio">' +
+    '\n<label class="radio" for="name-2">radio2</label><input id="name-2" type="radio" name="name" value="radio2"></li>' +
+    '<li class="radio">' +
+    '\n<label class="radio" for="name-3">radio3</label><input id="name-3" type="radio" name="name" value="radio3"></li>' +
+    '\n</ul>'}
+,
+{in:'- [?radiolist?M ](name)' +
+    '\n  - radio 1 "value1"' +
+    '\n  - radio 2 "value2"' +
+    '\n  - radio 3 "value3"',
+out:'\n<ul id="name" class="radiolist">' +
+    '<li class="radio"><input id="name-1" type="radio" name="name" value="value1">' +
+    '\n<label class="radio" for="name-1">radio 1</label></li>' +
+    '<li class="radio"><input id="name-2" type="radio" name="name" value="value2">' +
+    '\n<label class="radio" for="name-2">radio 2</label></li>' +
+    '<li class="radio"><input id="name-3" type="radio" name="name" value="value3">' +
+    '\n<label class="radio" for="name-3">radio 3</label></li>' +
+    '\n</ul>'}
+,
 {in:'[?label? Label text]()',
 out:'\n<label>Label text</label>'}
 ,

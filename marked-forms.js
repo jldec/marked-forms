@@ -37,14 +37,14 @@ module.exports = function markedForms() {
   // markdown link syntax extension for forms
   function link(href, title, text) {
 
-    var reLabelFirst = /^(.*?)\s*\?([^?\s]*)\?(\*?)(X?)(H?)$/;
-    var reLabelAfter = /^\?([^?\s]*)\?(\*?)(X?)(H?)\s*(.*)$/;
+    var reLabelFirst = /^(.*?)\s*\?([^?\s]*)\?(\*?)(X?)(H?)(M?)$/;
+    var reLabelAfter = /^\?([^?\s]*)\?(\*?)(X?)(H?)(M?)\s*(.*)$/;
 
     var m = text.match(reLabelFirst);
-    if (m) return renderInput(m[1], m[2], m[3], m[4], m[5], href, title, true);
+    if (m) return renderInput(m[1], m[2], m[3], m[4], m[5], m[6], href, title, true);
 
     m = text.match(reLabelAfter);
-    if (m) return renderInput(m[5], m[1], m[2], m[3], m[4], href, title, false);
+    if (m) return renderInput(m[6], m[1], m[2], m[3], m[4], m[5], href, title, false);
 
     return false; // fallbacks.link.call(this, href, title, text);
   }
@@ -77,7 +77,7 @@ module.exports = function markedForms() {
   }
 
 
-  function renderInput(text, type, required, checked, hidden, name, css, labelFirst) {
+  function renderInput(text, type, required, checked, hidden, modern, name, css, labelFirst) {
 
     required = required ? ' required' : '';
     checked = checked ? ' checked' : '';
@@ -107,7 +107,7 @@ module.exports = function markedForms() {
     var id = name && name.toLowerCase().replace(/[^\w]+/g, '-');
 
     var labelfor = id;
-    if (type === 'checklist' || type === 'radiolist') {
+    if (!modern && (type === 'checklist' || type === 'radiolist')) {
       labelfor = '';
     }
 
@@ -122,9 +122,10 @@ module.exports = function markedForms() {
     var el = 'input';
 
     if (type === 'select' || type === 'checklist' || type === 'radiolist') {
-      // suppress input except for select
-      el = (type !== 'select' ?  '' : type);
-      startList(type, name, el, label, labelFirst);
+      el = (type === 'select' ? 'select' : (modern ? 'ul' : ''));
+      startList(id, type, name, el, label, labelFirst, modern, required, checked);
+      if (modern && !css) { css = type; }
+      if (el === 'ul') { name=''; }
       type = '';
     }
 
@@ -160,26 +161,33 @@ module.exports = function markedForms() {
       return out + text + '</option>';
     }
 
+    var id = list.modern ? (list.id + '-' + (++list.count)) : '';
     var type = {checklist:'checkbox', radiolist:'radio'}[list.type];
-    var openLabel = text ? '\n<label' + attr('class', type) + '>' : '';
+    var openLabel = text ? '\n<label' + attr('class', type) + attr('for', id) + '>' : '';
     var closeLabel = text ? '</label>' : '';
 
-    out = '<input' + attr('type', type) + attr('name', list.name) + attr('value', value, true) + '>' ;
+    out = '<input' + list.required + list.checked + attr('id', id) + attr('class', list.required) + attr('type', type) + attr('name', list.name) + attr('value', value, true) + '>' ;
 
-    if (list.labelFirst) return openLabel + text + out + closeLabel;
-    return openLabel + out + text + closeLabel;
+    if ( list.modern &&  list.labelFirst) return '<li class="' + type + '">' + openLabel + text + closeLabel + out + '</li>';
+    if ( list.modern && !list.labelFirst) return '<li class="' + type + '">' + out + openLabel + text + closeLabel + '</li>';
+    if (!list.modern &&  list.labelFirst) return openLabel + text + out + closeLabel;
+    if (!list.modern && !list.labelFirst) return openLabel + out + text + closeLabel;
   }
-
 
   // mini state machine for listitem capture
   // used for select, checklist, and radiolist
 
-  function startList(type, name, el, label, labelFirst) {
+  function startList(id, type, name, el, label, labelFirst, modern, required, checked) {
     listState = {
       pending    : '\n' + (el ? '</' + el + '>' : '') + (labelFirst ? '' : label ),
+      id         : id,
+      count      : 0,
       type       : type,
       name       : (type !== 'select' ? name : ''),
-      labelFirst : labelFirst
+      labelFirst : labelFirst,
+      modern     : modern,
+      required   : required,
+      checked    : checked
     };
   }
 
