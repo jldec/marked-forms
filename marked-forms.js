@@ -4,7 +4,7 @@
  * forms-renderer for marked.js
  * generates labels and input controls from [text ?input?](name)
  *
- * usage: marked.use(markedForms())
+ * usage: marked.use(markedForms(opts))
  *
  * copyright 2015-2020, Jürgen Leschner - github.com/jldec - MIT license
  *
@@ -12,19 +12,20 @@
 
 /*eslint no-unused-vars: "off"*/
 
-module.exports = function markedForms() {
+module.exports = function markedForms(opts) {
+  opts = opts || {};
 
   // for state machine used by renderOption
   var listState = { pending:'' };
 
   return {
     renderer: { link:link, listitem:listitem, list:list, paragraph:paragraph },
-    tokenizer: { link: tokenizeLink }
+    tokenizer: opts.allowSpacesInLinks ? { link: tokenizeLink } : {}
   };
 
   //--//--//--//--//--//--//--//--//--//--//
 
-  // patch the link tokenizer regexp on first usage
+  // patch the link tokenizer regexp on first usage (ONLY if opts.allowSpacesInLinks)
   function tokenizeLink(src) {
     if (!this._marked_forms_patched_link_rule) {
       var rules = this.rules.inline;
