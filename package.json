@@ -1,15 +1,15 @@
 {
   "name": "marked-forms",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "description": "generate HTML labels and input controls from markdown",
   "main": "marked-forms.js",
   "dependencies": {},
   "peerDependencies": {
-    "marked": "^1.0.0"
+    "marked": "^1.1.0"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
-    "marked": "^1.0.0",
+    "marked": "^1.1.0",
     "tape": "^5.0.0"
   },
   "files": [

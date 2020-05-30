@@ -10,18 +10,19 @@ Generates labels and input controls from markdown links like `[text ?input?](nam
 ```sh
 npm install marked-forms
 ```
+## breaking changes
+- As of v3.0.0, this library uses the [`marked.use()`](https://marked.js.org/#/USING_PRO.md#use) plugin api.
+- As of v4.0.0, the plugin will only patch the marked link tokenizer to allow spaces in unbracketed links if
+  `opts.allowSpacesInLinks` is set. The recommended alternative is to use pointy brackets `[](<links with spaces>)`
+  once the [marked](https://github.com/markedjs/marked) library complies with [commonmark](https://spec.commonmark.org/0.29/#link-destination) in this respect.
 
 ## usage
-
-*NOTE: breaking change:*  
-As of v3.0.0, this library uses the [`marked.use()`](https://marked.js.org/#/USING_PRO.md#use) plugin api.  
-The plugin also globally patches the marked link tokenizer to allow spaces in urls.
 
 ```javascript
 var marked = require('marked');
 
 var markedForms = require('marked-forms');
-marked.use(markedForms());
+marked.use(markedForms(opts)); // optional opts { allowSpacesInLinks: true }
 
 var html = marked(markdown);
 ```
