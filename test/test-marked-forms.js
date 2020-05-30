@@ -12,7 +12,7 @@ var inspect = require('util').inspect;
 var marked = require('marked');
 
 var markedForms = require('../marked-forms');
-marked.use(markedForms());
+marked.use(markedForms({ allowSpacesInLinks:true }));
 
 var tests = [
 
@@ -50,11 +50,11 @@ out:'\n<input name="Name" id="name">' +
 out:'\n<label for="name">Label Text</label>' +
     '\n<input name="Name" id="name">'}
 ,
-{in:'[?? Label Text](<Name With Spaces>)',
+{in:'[?? Label Text](Name With Spaces)',
 out:'\n<input name="Name With Spaces" id="name-with-spaces">' +
     '\n<label for="name-with-spaces">Label Text</label>'}
 ,
-{in:'[Label Text ??](<Name With Spaces>)',
+{in:'[Label Text ??](Name With Spaces)',
 out:'\n<label for="name-with-spaces">Label Text</label>' +
     '\n<input name="Name With Spaces" id="name-with-spaces">'}
 ,
@@ -417,7 +417,7 @@ out:'\n<label for="name" class="classname1 classname2">Label text</label>'}
 {in:'[?label? Label text](- "classname1 classname2")',
 out:'\n<label class="classname1 classname2">Label text</label>'}
 ,
-{in:'[Label text ?label?](<name with spaces> "classname1 classname2")',
+{in:'[Label text ?label?](name with spaces "classname1 classname2")',
 out:'\n<label for="name-with-spaces" class="classname1 classname2">Label text</label>'}
 ,
 {in:'[?checkbox?*X Label Text](name)',
