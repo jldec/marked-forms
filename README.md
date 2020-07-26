@@ -1,5 +1,5 @@
 # marked-forms
-![CI](https://github.com/jldec/marked-forms/workflows/CI/badge.svg)
+[![CI](https://github.com/jldec/marked-forms/workflows/CI/badge.svg)](https://github.com/jldec/marked-forms/actions)
 
 Marked.js plugin for generating HTML form inputs from markdown.
 
