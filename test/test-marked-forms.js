@@ -23,6 +23,10 @@ out:'<a href="url">regular link</a>'}
 in:'[regular link](url space)',
 out:'<a href="url%20space">regular link</a>'}
 ,
+{comment: ' (NOTE: commonmark-compliant <spaces in url> for field names with spaces',
+in:'[regular link](<url space>)',
+out:'<a href="url%20space">regular link</a>'}
+,
 {in:'- regular list\n- with 2 list items',
 out:'regular list</li>\n<li>with 2 list items'} // see unwrap2 below
 ,
@@ -35,7 +39,7 @@ out:'\n<input name="name" id="name">'}
 {in:'[??](name "cssname")',
 out:'\n<input name="name" id="name" class="cssname">'}
 ,
-{comment: ' (NOTE: not recognized as a link)',
+{comment: ' (NOTE: not recognized as a link when opts.allowSpacesInLinks is true)',
  in:'[??]("cssname")',
 out:'[??](&quot;cssname&quot;)'}
 ,
@@ -54,7 +58,15 @@ out:'\n<label for="name">Label Text</label>' +
 out:'\n<input name="Name With Spaces" id="name-with-spaces">' +
     '\n<label for="name-with-spaces">Label Text</label>'}
 ,
+{in:'[?? Label Text](<Name With Spaces>)',
+out:'\n<input name="Name With Spaces" id="name-with-spaces">' +
+    '\n<label for="name-with-spaces">Label Text</label>'}
+,
 {in:'[Label Text ??](Name With Spaces)',
+out:'\n<label for="name-with-spaces">Label Text</label>' +
+    '\n<input name="Name With Spaces" id="name-with-spaces">'}
+,
+{in:'[Label Text ??](<Name With Spaces>)',
 out:'\n<label for="name-with-spaces">Label Text</label>' +
     '\n<input name="Name With Spaces" id="name-with-spaces">'}
 ,
@@ -418,6 +430,9 @@ out:'\n<label for="name" class="classname1 classname2">Label text</label>'}
 out:'\n<label class="classname1 classname2">Label text</label>'}
 ,
 {in:'[Label text ?label?](name with spaces "classname1 classname2")',
+out:'\n<label for="name-with-spaces" class="classname1 classname2">Label text</label>'}
+,
+{in:'[Label text ?label?](<name with spaces> "classname1 classname2")',
 out:'\n<label for="name-with-spaces" class="classname1 classname2">Label text</label>'}
 ,
 {in:'[?checkbox?*X Label Text](name)',
