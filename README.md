@@ -14,6 +14,8 @@ npm install marked-forms
 - As of v3.0.0, this library uses the [`marked.use()`](https://marked.js.org/#/USING_PRO.md#use) plugin api.
 - As of v4.0.0, the plugin will only patch the marked link tokenizer to allow spaces in unbracketed links if
   `opts.allowSpacesInLinks` is set. The recommended alternative is to use pointy brackets `[](<links with spaces>)` (see CommonMark [spec](https://spec.commonmark.org/0.29/#example-486)).
+- As of v5.0.0, since [marked v4.x](https://github.com/markedjs/marked/releases/tag/v4.0.0) the `marked()` function is no longer the default export. CommonJS code which does `marked = require(marked)` should be changed to call `marked.marked(<markdown-string>)` instead of `marked()`.
+
 
 ## usage
 
@@ -23,7 +25,7 @@ var marked = require('marked');
 var markedForms = require('marked-forms');
 marked.use(markedForms(opts)); // optional opts { allowSpacesInLinks: true }
 
-var html = marked(markdown);
+var html = marked.marked(markdown);
 ```
 
 ## text input

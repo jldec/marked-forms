@@ -1,7 +1,7 @@
 /**
  * test-marked-forms
  * tests for marked-forms plugin
- * copyright 2015-2020, Jürgen Leschner - github.com/jldec - MIT license
+ * Copyright (c) 2015-2022 Jürgen Leschner - github.com/jldec - MIT license
  *
 **/
 /*eslint indent: "off"*/
@@ -522,7 +522,7 @@ test('sanity check unwrap()', function(t) {
 
 tests.forEach(function(tst){
   test(inspect(tst.in).slice(1,-1) + (tst.comment || ''), function(t){
-    var actual = marked(tst.in);
+    var actual = marked.marked(tst.in);
     // console.log('@@@\n%s\n@@@', actual);
     t.equal(unwrap(actual), tst.out);
     t.end();
