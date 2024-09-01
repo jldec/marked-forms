@@ -5,6 +5,10 @@ Marked.js plugin for generating HTML form inputs from markdown.
 
 Generates labels and input controls from markdown links like `[text ?input?](name)`.
 
+> [!NOTE]
+> This package depends on [marked v4.3](https://github.com/markedjs/marked/releases/tag/v4.3.0)
+> and will not be updated going forward.
+
 ## installation
 
 ```sh
